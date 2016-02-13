@@ -18,3 +18,11 @@ streamer_device.setsockopt_in(zmq.IDENTITY, "PULL")
 streamer_device.setsockopt_out(zmq.IDENTITY, "PUSH")
 
 streamer_device.start()
+
+def server():
+	context = zmq.Context()
+	socket = context.socket(zmq.PUSH)
+	socket.connect("tcp://127.0.0.1:%d" % fe_port)
+	for i in xrange(0,100):
+		socket.send("#%s" % i)
+
